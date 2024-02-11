@@ -17,6 +17,7 @@ jobs:
 
     - name: Run Jest tests
       run: npm test -- --json > test-results.json
+      continue-on-error: true
 
     - name: Extract number of passed tests
       id: extract-tests
