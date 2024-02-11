@@ -17,14 +17,3 @@ jobs:
 
     - name: Run Jest tests
       run: npm test -- --json > test-results.json
-      continue-on-error: true
-
-    - name: Extract number of passed tests
-      id: extract-tests
-      run: echo "::set-output name=passed_tests::$(jq '.numPassedTests' test-results.json)"
-
-    - name: Write number of passed tests to file
-      run: echo "${{ steps.extract-tests.outputs.passed_tests }}" > passed-tests.txt
-
-    - name: Display number of passed tests
-      run: cat passed-tests.txt
