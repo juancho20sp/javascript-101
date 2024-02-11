@@ -1,0 +1,29 @@
+name: Run Jest Tests
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  jest:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run Jest tests
+      run: npm test -- --json > test-results.json
+
+    - name: Extract number of passed tests
+      id: extract-tests
+      run: echo "::set-output name=passed_tests::$(jq '.numPassedTests' test-results.json)"
+
+    - name: Write number of passed tests to file
+      run: echo "${{ steps.extract-tests.outputs.passed_tests }}" > passed-tests.txt
+
+    - name: Display number of passed tests
+      run: cat passed-tests.txt
